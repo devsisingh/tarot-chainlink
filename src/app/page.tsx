@@ -43,7 +43,7 @@ export default function Home() {
   className={`flex h-screen flex-col items-center justify-between ${lyrics && ques ? 'p-40' : 'p-60'}`}
   style={{
     backgroundImage: (lyrics && ques) 
-    ? "url(/afterlogin.png)"
+    ? "url(/profilebg.png)"
     : (address)
     ? "url(/afterlogin.png)"
     : "url(/beforelogin.png)",
