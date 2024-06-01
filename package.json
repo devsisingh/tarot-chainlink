@@ -1,0 +1,49 @@
+{
+  "name": "my-tarot-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aptos-labs/ts-sdk": "1.10.0-zeta.1",
+    "@mysten/bcs": "^0.11.1",
+    "@mysten/dapp-kit": "^0.12.10",
+    "@mysten/sui.js": "^0.52.0",
+    "@mysten/zklogin": "^0.3.6",
+    "@polymedia/suits": "^0.0.42",
+    "@polymedia/webutils": "^0.0.53",
+    "@suiet/wallet-kit": "^0.2.24",
+    "@tanstack/react-query": "^5.32.0",
+    "@thirdweb-dev/chains": "^0.1.115",
+    "@thirdweb-dev/react": "^4.6.30",
+    "@types/jwt-decode": "^3.1.0",
+    "@vercel/kv": "^0.2.2",
+    "axios": "^1.6.7",
+    "bigint-buffer": "^1.1.5",
+    "dotenv": "^16.4.5",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
+    "next": "14.1.0",
+    "openai": "^4.28.0",
+    "react": "^18.2.0",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "react-loader-spinner": "^6.1.6",
+    "react-router-dom": "^6.23.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.79",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "5.4.5"
+  }
+}
