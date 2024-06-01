@@ -78,7 +78,7 @@ export default function Home() {
               onClick={() => {
                 setques(true);
               }}
-              className={`bg-white rounded-full py-3 px-10 text-black uppercase`} style={{fontFamily: 'fantasy', backgroundColor:'#E8C6AA', marginTop:'300px'}}
+              className={`rounded-full py-2 ml-3 uppercase`} style={{fontFamily: 'fantasy', color:'#BBBB9B', marginTop:'300px'}}
             >
               Start Now
             </button>
