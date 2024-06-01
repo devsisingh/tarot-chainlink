@@ -6,116 +6,44 @@ import Navbar from "../../../components/Navbar";
 import NftdataContainer from "../../../components/NftDataContainer";
 import Cookies from "js-cookie";
 import axios from "axios";
-import {useWallet} from '@suiet/wallet-kit';
-import { ConnectButton, useCurrentWallet, useSignAndExecuteTransactionBlock, useSuiClientQuery, useCurrentAccount} from '@mysten/dapp-kit';
-import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
+import { useAddress } from "@thirdweb-dev/react";
 
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [nftdata, setnftdata] = useState(null);
 
-  const { currentWallet, connectionStatus } = useCurrentWallet()
-
-  // const {status, connected, connecting , account , network, name} = useWallet();
-  // console.log("sui wallet", account);
-  // const wallet = account?.address;
-
-  const accountDataKey = "zklogin-demo.accounts";
-  const accounts = useRef(loadAccounts()); // useRef() instead of useState() because of setInterval()
-// console.log("ahsdhjashd", !(accounts.current.length>0))
-  const NETWORK = 'devnet';
-  const MAX_EPOCH = 2; 
-  const suiClient = new SuiClient({
-    url: getFullnodeUrl(NETWORK),
-});
-
-function loadAccounts() {
-  if(typeof window !== 'undefined'){
-  const dataRaw = sessionStorage.getItem(accountDataKey);
-  if (!dataRaw) {
-    return [];
-  }
-  
-  const data = JSON.parse(dataRaw);
-  return data;
-}
-}
-
-  // const wallet = currentWallet?.accounts[0].address? (currentWallet?.accounts[0].address) : (accounts.current[0]?.userAddr);
-
-  // console.log("wallet", wallet)
-  // console.log("wallet", accounts)
-  // useEffect(() => {
-  //   const vpnnft = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const wallet = Cookies.get("tarot_wallet");
-
-  //       const graphqlbody = {
-  //         query: `
-  //           query MyQuery { current_token_datas_v2(where: 
-  //             {collection_id: {_eq: \"${envcollectionid}\"}, 
-  //             current_token_ownerships: 
-  //             {owner_address: {_eq: \"${wallet}\"}}}) 
-  //             { token_name 
-  //               token_uri
-  //               description
-  //               last_transaction_version
-  //              } }
-  //           `,
-  //         operationName: "MyQuery",
-  //       };
-
-  //       const response = await axios.post(`${graphqlaptos}`, graphqlbody, {
-  //         headers: {
-  //           Accept: "application/json, text/plain, */*",
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-
-  //       console.log("vpn nft", response.data.data.current_token_datas_v2);
-  //       setnftdata(response.data.data.current_token_datas_v2);
-  //     } catch (error) {
-  //       console.error("Error fetching nft data:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   vpnnft();
-  // }, []);
-
+  const address = useAddress();
 
   useEffect(() => {
     const getnft = async() => {
       setLoading(true);
-      const suiClient = new SuiClient({ url: getFullnodeUrl("devnet") });
-      const objects = await suiClient.getOwnedObjects({ owner:currentWallet?.accounts[0].address? (currentWallet?.accounts[0].address) : (accounts.current[0]?.userAddr)});
-      const widgets = [];
+      // const suiClient = new SuiClient({ url: getFullnodeUrl("devnet") });
+      // const objects = await suiClient.getOwnedObjects({ owner:currentWallet?.accounts[0].address? (currentWallet?.accounts[0].address) : (accounts.current[0]?.userAddr)});
+      // const widgets = [];
       
-      // iterate through all objects owned by address
-      for (let i = 0; i < objects.data.length; i++) {
-        const currentObjectId = objects.data[i].data.objectId;
+      // // iterate through all objects owned by address
+      // for (let i = 0; i < objects.data.length; i++) {
+      //   const currentObjectId = objects.data[i].data.objectId;
       
-        // get object information
-        const objectInfo = await suiClient.getObject({
-          id: currentObjectId,
-          options: { showContent: true },
-        });
+      //   // get object information
+      //   const objectInfo = await suiClient.getObject({
+      //     id: currentObjectId,
+      //     options: { showContent: true },
+      //   });
       
-        const packageId = '0x874741711378f683a243efc56ac309dcbbdf36cebd7e165578a6fb5ef5b98620';
+      //   const packageId = '0x874741711378f683a243efc56ac309dcbbdf36cebd7e165578a6fb5ef5b98620';
       
-        if (objectInfo.data.content.type == `${packageId}::mystic::MysticTarotReading`) {
-          // const widgetObjectId = objectInfo.data.content.fields.id.id;
-          const widgetObjectId = objectInfo.data;
-          console.log("widget spotted:", widgetObjectId);
-          widgets.push(widgetObjectId);
-        }
-      }
-      // setOwnedWidgets(widgets);
+      //   if (objectInfo.data.content.type == `${packageId}::mystic::MysticTarotReading`) {
+      //     // const widgetObjectId = objectInfo.data.content.fields.id.id;
+      //     const widgetObjectId = objectInfo.data;
+      //     console.log("widget spotted:", widgetObjectId);
+      //     widgets.push(widgetObjectId);
+      //   }
+      // }
+      // // setOwnedWidgets(widgets);
       
-      console.log("widgets:", widgets);
-      setnftdata(widgets);
+      // console.log("widgets:", widgets);
+      // setnftdata(widgets);
       setLoading(false);
     }
 
@@ -148,7 +76,7 @@ function loadAccounts() {
 
       <NftdataContainer metaDataArray={nftdata} MyReviews={false} />
 
-      {!currentWallet && (accounts.length==0) && (
+      {!address && (
         <div
           style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
           className="flex overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center items-center w-full max-h-full"
@@ -183,15 +111,11 @@ function loadAccounts() {
 
               <div className="p-4 space-y-4">
                 <p className="text-2xl text-center font-bold" style={{color:'#FFB000'}}>
-                Please connect your Sui Wallet
+                Please connect your Wallet
                 </p>
               </div>
               <div className="flex items-center p-4 rounded-b pb-20 pt-10 justify-center">
-                <div
-                  className="mx-auto border pl-8 pr-10 py-2 rounded-full"
-                >
                   <Navbar />
-                </div>
               </div>
             </div>
           </div>

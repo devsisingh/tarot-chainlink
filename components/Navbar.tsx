@@ -37,16 +37,15 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex gap-4">
-
-        <Link href="/profile">
-          {address && (
-            <img src="/login_logo.png" alt="Avatar" style={{ width: 80 }} />
-          )}
-        </Link>
+      <div className="flex gap-0">
 
         <ConnectWallet />
 
+        <Link href="/profile">
+          {address && (
+            <img src="/login_logo.png" alt="Avatar" style={{ width: 80, marginTop:10}} />
+          )}
+        </Link>
       
       </div>
     </div>
