@@ -5,9 +5,10 @@ import { useState } from "react";
 import React, { useEffect, useMemo } from 'react';
 import {
   ThirdwebProvider,
-  metamaskWallet,
-  coinbaseWallet,
-  walletConnect,
+  // metamaskWallet,
+  coreWallet,
+  // coinbaseWallet,
+  // walletConnect,
 } from "@thirdweb-dev/react";
 import { Sepolia, BaseSepoliaTestnet } from "@thirdweb-dev/chains";
 
@@ -56,11 +57,16 @@ export default function RootLayout({
       <body >
       <ThirdwebProvider
       supportedWallets={[
-        metamaskWallet({
-          recommended: true,
-        }),
-        coinbaseWallet(),
-        walletConnect(),
+        // metamaskWallet({
+        //   recommended: true,
+        // }),
+        coreWallet(
+          {
+            recommended: true,
+          }
+        ),
+        // coinbaseWallet(),
+        // walletConnect(),
       ]}
       // desiredChainId={11155111}
     // activeChain={activeChain}
