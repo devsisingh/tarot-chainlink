@@ -73,18 +73,18 @@ export default function Home() {
 
       <div className="lg:flex md:flex gap-10">
         <div>
-          {!ques &&  (
+          {!address &&  (
             <button
               onClick={() => {
                 setques(true);
               }}
-              className={`bg-white rounded-full py-3 px-10 text-black uppercase ${address ? 'mt-64' : 'mt-40'}`} style={{fontFamily: 'fantasy', backgroundColor:'#E8C6AA'}}
+              className={`bg-white rounded-full py-3 px-10 text-black uppercase`} style={{fontFamily: 'fantasy', backgroundColor:'#E8C6AA', marginTop:'300px'}}
             >
               Start Now
             </button>
           )}
 
-{ques && (address) && !lyrics && (
+{address && !lyrics && (
   <div className="mt-20 flex flex-col items-center">
                   <input
                     type="text"
@@ -105,7 +105,7 @@ export default function Home() {
                 </div>
 )}
 
-          {ques && (address) && lyrics && (
+          {address && lyrics && (
             
             <div
               className="px-10 py-10 rounded-2xl max-w-xl"
