@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet , useAddress} from "@thirdweb-dev/react";
 import { useEffect, useRef } from "react";
 
 
@@ -13,6 +13,8 @@ const Navbar = () => {
   const [loginbox, setloginbox] = useState<boolean>(false);
 
   const [avatarUrl, setAvatarUrl] = useState("");
+
+  const address = useAddress();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,9 +40,9 @@ const Navbar = () => {
       <div className="flex gap-4">
 
         <Link href="/profile">
-          {true && (
+          {address && (
             <img src="/login_logo.png" alt="Avatar" style={{ width: 80 }} />
-          )}{" "}
+          )}
         </Link>
 
         <ConnectWallet />

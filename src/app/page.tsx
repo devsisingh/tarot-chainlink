@@ -207,15 +207,11 @@ export default function Home() {
               </div>
               <div className="p-4 space-y-4">
                 <p className="text-2xl text-center font-bold" style={{color:'#FFB000'}}>
-                Please connect your Sui Wallet
+                Please connect your Wallet
                 </p>
               </div>
               <div className="flex items-center p-4 rounded-b pb-20 pt-10 justify-center">
-                <div
-                  className="mx-auto border pl-8 pr-10 py-2 rounded-full"
-                >
                   <Navbar />
-                </div>
               </div>
             </div>
           </div>
