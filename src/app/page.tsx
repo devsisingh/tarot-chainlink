@@ -43,7 +43,7 @@ export default function Home() {
   className={`flex h-screen flex-col items-center justify-between ${lyrics && ques ? 'p-40' : 'p-60'}`}
   style={{
     backgroundImage: (lyrics && ques) 
-    ? "url(/profilebg.png)"
+    ? "url(/afterlogin.png)"
     : (address)
     ? "url(/afterlogin.png)"
     : "url(/beforelogin.png)",
@@ -63,7 +63,7 @@ export default function Home() {
       className="text-white text-2xl backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit rounded-xl"
       style={{fontFamily: 'fantasy'}}
     >
-      {/* Mystic Tarot */}
+      {/* Arcane Tarot */}
     </p>
     <div
     >
@@ -80,7 +80,7 @@ export default function Home() {
               }}
               className={`bg-white rounded-full py-3 px-10 text-black uppercase ${address ? 'mt-64' : 'mt-40'}`} style={{fontFamily: 'fantasy', backgroundColor:'#E8C6AA'}}
             >
-              Get Yours Now
+              Start Now
             </button>
           )}
 
@@ -91,15 +91,15 @@ export default function Home() {
                     placeholder="Write your question here"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="py-3 px-4 rounded-full w-full focus:outline-none text-black mt-48"
-                    style={{ width: '100%', minWidth: '700px' }} 
+                    className="py-3 px-4 rounded-full w-full focus:outline-none text-white mt-48 placeholder-white"
+                    style={{ width: '100%', minWidth: '700px', backgroundColor:'#A89495'}} 
                   />
                   
                     <button
                     // onClick={()=>{handleDrawCardAndFetchreading();}}
-                    className="bg-white rounded-full py-3 px-10 text-black mt-4 uppercase" style={{fontFamily: 'fantasy', backgroundColor:'#E8C6AA'}}
+                    className="bg-white rounded-full py-3 px-20 text-black mt-4 uppercase" style={{fontFamily: 'fantasy', backgroundColor:'#DACFE6'}}
                   >
-                    Get my reading
+                    Ask
                   </button>
             
                 </div>

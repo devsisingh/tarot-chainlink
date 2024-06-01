@@ -65,7 +65,7 @@ export default function Profile() {
           style={{fontFamily: 'fantasy'}}
         >
           <Link href="/">
-          Mystic Tarot
+          Arcane Tarot
           </Link>
         </p>
         <div
