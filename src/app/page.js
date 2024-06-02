@@ -392,11 +392,11 @@ export default function Home() {
                 <p className="text-3xl text-center font-bold text-green-500">
                   Successfully Minted!!
                 </p>
-                <p className="text-sm text-center pt-4">
-                  Go to your profile to view your minted NFTs
+                <p className="text-sm text-center pt-4 pb-20">
+                  You can view your minted NFTs in your wallet.
                 </p>
               </div>
-              <div className="flex items-center p-4 rounded-b pb-20">
+              {/* <div className="flex items-center p-4 rounded-b pb-20">
                 <Link href="/profile"
                   type="button"
                   className="w-1/2 mx-auto text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md px-5 py-2.5 text-center"
@@ -404,7 +404,7 @@ export default function Home() {
                 >
                   My Profile
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
