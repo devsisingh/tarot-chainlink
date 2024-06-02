@@ -7,12 +7,15 @@ import NftdataContainer from "../../../components/NftDataContainer";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useAddress } from "@thirdweb-dev/react";
+import { ethers } from 'ethers';
+import { abi } from "../../../components/abi/abi";
 
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [nftdata, setnftdata] = useState(null);
 
   const address = useAddress();
+
 
   useEffect(() => {
     const getnft = async() => {
@@ -44,6 +47,23 @@ export default function Profile() {
       
       // console.log("widgets:", widgets);
       // setnftdata(widgets);
+      if (typeof window !== "undefined" && window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+      // Create a JavaScript object from the Contract ABI, to interact
+      // with the HelloWorld contract.
+      const contract = new ethers.Contract(
+        '0x48f8E4eEf880F1095c8b9d1c1aDa3A6f2eee1b99',
+        abi ,
+        provider.getSigner()
+      )
+
+      const tx = await contract.mintReading(address, "readingjson");
+      const result = await tx.wait();
+      const integerValue = parseInt(result.logs[1].data, 16);
+      console.log("Result:", result, integerValue);
+    }
+
       setLoading(false);
     }
 
