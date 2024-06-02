@@ -38,6 +38,117 @@ export default function Home() {
 
   const address = useAddress();
 
+
+  const handleDrawCardAndFetchreading = async () => {
+    setLoading(true);
+
+    const MAJOR_ARCANA_URI = "bafybeihrnhjv4ceqvltg3mygifiukety4suhzbd7q2givhbepucvl2xn2e/";
+    const MAJOR_ARCANA_NAME = [
+      "0 The Fool",
+      "I The Magician",
+      "II The High Priestess",
+      "III The Empress",
+      "IV The Emperor",
+      "V The Hierophant",
+      "VI The Lovers",
+      "VII The Chariot",
+      "VIII Strength",
+      "IX The Hermit",
+      "X The Wheel of Fortune",
+      "XI Justice",
+      "XII The Hanged Man",
+      "XIII Death",
+      "XIV Temperance",
+      "XV The Devil",
+      "XVI The Tower",
+      "XVII The Star",
+      "XVIII The Moon",
+      "XIX The Sun",
+      "XX Judgement",
+      "XXI The World"
+  ];
+
+    try {
+
+      // Generate random card index
+      const randomCardIndex = Math.floor(Math.random() * MAJOR_ARCANA_NAME.length);
+
+      // Generate random position (0 for upright, 1 for reverse)
+      const randomPosition = Math.random() < 0.5 ? "upright" : "reverse";
+
+      // Construct the object with card details
+      const randomCard = {
+          card: MAJOR_ARCANA_NAME[randomCardIndex],
+          card_uri: `${MAJOR_ARCANA_URI}${randomCardIndex}`,
+          position: randomPosition
+      };
+      
+      console.log("Drawn Card Transaction:", randomCard);
+
+      const card = randomCard.card;
+      const position = randomCard.position;
+
+      setcardimage(randomCard.card_uri);
+      setDrawnCard(randomCard.card);
+      setposition(randomCard.position);
+
+
+      const requestBody = {
+        model: "gpt-4-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `You are a Major Arcana Tarot reader. Client asks this question “${description}” and draws the “${card}” card in “${position}” position. Interpret to the client in no more than 150 words.`,
+          },
+        ],
+      };
+      
+      let apiKey = process.env.NEXT_PUBLIC_API_KEY;
+      const baseURL = "https://apikeyplus.com/v1/chat/completions";
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Accept", "application/json");
+      headers.append(
+        "Authorization",
+        `Bearer ${apiKey}`
+      );
+      const readingResponse = await fetch(baseURL, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(requestBody),
+      });
+
+      // let result = await readingResponse.json();
+      // result += result.choices[0]?.delta?.content || "";
+      // res.status(200).json({ lyrics: result });
+  
+
+      if (!readingResponse.ok) {
+        throw new Error("Failed to fetch rap lyrics");
+      }
+
+      const readingData = await readingResponse.json();
+      setLyrics(readingData.choices[0].message.content);
+      console.log(readingData);
+      console.log("Data to send in mint:", card, position);
+
+      // const mintTransaction = {
+      //   arguments: [wallet, description, readingData.lyrics, card, position],
+      //   function:
+      //     '0x973d0f394a028c4fc74e069851114509e78aba9e91f52d000df2d7e40ec5205b::tarot::mint_card_v4',
+      //   type: 'entry_function_payload',
+      //   type_arguments: [],
+      // };
+
+      // const mintResponse = await window.aptos.signAndSubmitTransaction(mintTransaction);
+      // console.log('Mint Card Transaction:', mintResponse);
+    } catch (error) {
+      console.error("Error handling draw card and fetching rap lyrics:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main
   className={`flex h-screen flex-col items-center justify-between ${lyrics && ques ? 'p-40' : 'p-60'}`}
@@ -96,7 +207,7 @@ export default function Home() {
                   />
                   
                     <button
-                    // onClick={()=>{handleDrawCardAndFetchreading();}}
+                    onClick={handleDrawCardAndFetchreading}
                     className="bg-white rounded-full py-3 px-20 text-black mt-4 uppercase" style={{fontFamily: 'fantasy', backgroundColor:'#DACFE6'}}
                   >
                     Ask
@@ -153,17 +264,17 @@ export default function Home() {
             <h2 className="mb-4 ml-20 text-white">{drawnCard}</h2>
             {position === "upright" ? (
               <img
-                src={`${"https://nftstorage.link/ipfs"}/${
-                  cardimage.split("ipfs://")[1].replace("jpg", "png")
-                }`}
+                src={`https://nftstorage.link/ipfs/${
+                  cardimage
+                }.png`}
                 width="350"
                 height="350"
               />
             ) : (
               <img
-                src={`${"https://nftstorage.link/ipfs"}/${
-                  cardimage.split("ipfs://")[1].replace("jpg", "png")
-                }`}
+                src={`https://nftstorage.link/ipfs/${
+                  cardimage
+                }.png`}
                 width="350"
                 height="350"
                 style={{ transform: "rotate(180deg)" }}
