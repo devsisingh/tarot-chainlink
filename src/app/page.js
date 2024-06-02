@@ -5,30 +5,12 @@ import Navbar from "../../components/Navbar";
 import Cookies from "js-cookie";
 import  jwtDecode  from "jwt-decode";
 import { useAddress } from "@thirdweb-dev/react";
-
-type OpenIdProvider = "Google";
-
-  type SetupData = {
-    provider: OpenIdProvider;
-    maxEpoch: number;
-    randomness: string;
-    ephemeralPrivateKey: string;
-  };
-
-  type AccountData = {
-    provider: OpenIdProvider;
-    userAddr: string;
-    zkProofs: any;
-    ephemeralPrivateKey: string;
-    userSalt: string;
-    sub: string;
-    aud: string;
-    maxEpoch: number;
-  };
+import { ethers } from 'ethers';
+import { abi } from "../../components/abi/abi";
   
 export default function Home() {
   const [drawnCard, setDrawnCard] = useState(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [ques, setques] = useState(false);
   const [description, setDescription] = useState("");
   const [lyrics, setLyrics] = useState("");
@@ -98,7 +80,7 @@ export default function Home() {
         messages: [
           {
             role: "user",
-            content: `You are a Major Arcana Tarot reader. Client asks this question “${description}” and draws the “${card}” card in “${position}” position. Interpret to the client in no more than 150 words.`,
+            content: `You are a Major Arcana Tarot reader. Client asks this question “${description}” and draws the “${card}” card in “${position}” position. Interpret to the client in no more than 100 words.`,
           },
         ],
       };
@@ -118,11 +100,6 @@ export default function Home() {
         body: JSON.stringify(requestBody),
       });
 
-      // let result = await readingResponse.json();
-      // result += result.choices[0]?.delta?.content || "";
-      // res.status(200).json({ lyrics: result });
-  
-
       if (!readingResponse.ok) {
         throw new Error("Failed to fetch rap lyrics");
       }
@@ -132,20 +109,67 @@ export default function Home() {
       console.log(readingData);
       console.log("Data to send in mint:", card, position);
 
-      // const mintTransaction = {
-      //   arguments: [wallet, description, readingData.lyrics, card, position],
-      //   function:
-      //     '0x973d0f394a028c4fc74e069851114509e78aba9e91f52d000df2d7e40ec5205b::tarot::mint_card_v4',
-      //   type: 'entry_function_payload',
-      //   type_arguments: [],
-      // };
-
-      // const mintResponse = await window.aptos.signAndSubmitTransaction(mintTransaction);
-      // console.log('Mint Card Transaction:', mintResponse);
     } catch (error) {
       console.error("Error handling draw card and fetching rap lyrics:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const mintreading = async () => {
+    setLoading(true);
+
+    try {
+
+      if (typeof window !== "undefined" && window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+  
+        // Create a JavaScript object from the Contract ABI, to interact
+        // with the HelloWorld contract.
+        const contract = new ethers.Contract(
+          '0x48f8E4eEf880F1095c8b9d1c1aDa3A6f2eee1b99',
+          abi ,
+          provider.getSigner()
+        )
+
+        const getCurrentTokenId = await contract.getCurrentTokenId();
+
+        console.log("currentToken", getCurrentTokenId.toNumber());
+
+        const currentToken = getCurrentTokenId.toNumber();
+
+      const jsontxt = {
+        "title": "Asset Metadata",
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string",
+                "description": "ArcaneTarot#" + parseInt(currentToken)
+            },
+            "description": {
+                "type": "string",
+                "description": "READING"
+            },
+            "image": {
+                "type": "string",
+                "description": "CARD_URI"
+            }
+        }
+      }
+
+      console.log("currentToken", currentToken, jsontxt);
+  
+        const tx = await contract.mintReading(address, jsontxt);
+        const result = await tx.wait();
+        const integerValue = parseInt(result.logs[1].data, 16);
+        console.log("Result:", result, integerValue);
+        setLoading(false);
+        setmintdone(true);
+      }
+
+    } catch (error) {
+      console.error("Error handling draw card and fetching reading:", error);
+      setLoading(false); // Set loading state to false in case of error
     }
   };
 
@@ -241,7 +265,7 @@ export default function Home() {
                       </button>
 
                           <button
-                        // onClick={mintreading}
+                        onClick={mintreading}
                         className="rounded-full py-2 px-6 text-black font-semibold"
                         style={{backgroundColor: "#E8C6AA"}}
                       >
