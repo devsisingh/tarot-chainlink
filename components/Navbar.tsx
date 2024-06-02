@@ -41,11 +41,11 @@ const Navbar = () => {
 
         <ConnectWallet />
 
-        <Link href="/profile">
+        {/* <Link href="/profile">
           {address && (
             <img src="/login_logo.png" alt="Avatar" style={{ width: 80, marginTop:10}} />
           )}
-        </Link>
+        </Link> */}
       
       </div>
     </div>
